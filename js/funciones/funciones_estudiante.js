@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+    $(".select").select2();
     $('#formulario').validate({
         rules: {
             nombre: {
@@ -8,7 +8,7 @@ $(document).ready(function() {
             },
             apellido: {
                 required: true,
-                maxlength: 250,
+                maxlength: 100,
             },
             usuario: {
                 required: true,
@@ -17,28 +17,86 @@ $(document).ready(function() {
             fecha: {
                 required: true,
             },
+            departamento: {
+                required: true,
+            },
+            municipio: {
+                required: true,
+            },
+            facultad: {
+                required: true,
+            },
+            carrera: {
+                required: true,
+            },
         },
         messages: {
             nombre: {
-                required: "Por favor ingrese el nombre del docente!",
+                required: "Por favor ingrese el nombre del estudiante!",
                 maxlength: "Longitud exede el limite de 100 caracteres!"
             },
             apellido: {
-                required: "Por favor ingrese el apellido del docente!",
-                maxlength: "Longitud exede el limite de 250 caracteres!"
+                required: "Por favor ingrese el apellido del estudiante!",
+                maxlength: "Longitud exede el limite de 100 caracteres!"
             },
             usuario: {
-                required: "Por favor ingrese el nombre de usuario del docente!",
+                required: "Por favor ingrese el nombre de usuario del estudiante!",
                 maxlength: "Longitud exede el limite de 50 caracteres!"
             },
             fecha: {
-                required: "Por favor ingrese las fecha de nacimiento del docente!",
+                required: "Por favor ingrese la fecha de nacimiento del estudiante!",
+            },
+            departamento: {
+                required: "Por favor ingrese el departamento donde vive el estudiante!",
+            },
+            municipio: {
+                required: "Por favor ingrese el municipio donde vive el estudiante!",
+            },
+            facultad: {
+                required: "Por favor ingrese la facultad a la que pertenece el estudiante!",
+            },
+            carrera: {
+                required: "Por favor ingrese la carrera a la que pertenece el estudiante!",
             },
         },
         submitHandler: function(form) {
             senddata();
         }
     });
+
+    $("#departamento").change(function() {
+        $("#municipio *").remove();
+        $("#select2-municipio-container").text("");
+        var ajaxdata = { "process": "municipio", "id_departamento": $("#departamento").val() };
+        $.ajax({
+            url: "agregar_estudiante.php",
+            type: "POST",
+            data: ajaxdata,
+            success: function(opciones) {
+                $("#select2-municipio-container").text("Seleccione");
+                $("#municipio").html(opciones);
+                $("#municipio").val("");
+            }
+        })
+    });
+
+    $("#facultad").change(function() {
+        $("#carrera *").remove();
+        $("#select2-carrera-container").text("");
+        var ajaxdata = { "process": "carrera", "id_facultad": $("#facultad").val() };
+        $.ajax({
+            url: "agregar_estudiante.php",
+            type: "POST",
+            data: ajaxdata,
+            success: function(opciones) {
+                $("#select2-carrera-container").text("Seleccione");
+                $("#carrera").html(opciones);
+                $("#carrera").val("");
+            }
+        })
+    });
+
+
 });
 
 $(function() {
@@ -71,20 +129,26 @@ function senddata() {
     var apellido = $('#apellido').val();
     var usuario = $("#usuario").val();
     var fecha = $("#fecha").val();
+    var departamento = $("#departamento").val();
+    var municipio = $("#municipio").val();
+    var facultad = $("#facultad").val();
+    var carrera = $("#carrera").val();
     //Get the value from form if edit or insert
     var process = $('#process').val();
     if (process == 'insert') {
         var id_usuario = 0;
-        var urlprocess = 'agregar_docente.php';
+        var urlprocess = 'agregar_estudiante.php';
         var dataString = 'process=' + process + '&nombre=' + nombre + '&apellido=' + apellido + "&usuario=" + usuario + "&fecha=" + fecha;
+        dataString += "&departamento=" + departamento + "&municipio=" + municipio + "&facultad=" + facultad + "&carrera=" + carrera;
     }
     if (process == 'edited') {
-        var id_docente = $('#id_docente').val();
+        var id_estudiante = $('#id_estudiante').val();
         var nombre = $('#nombre').val();
         var apellido = $('#apellido').val();
 
-        var urlprocess = 'editar_docente.php';
-        var dataString = 'process=' + process + '&nombre=' + nombre + '&apellido=' + apellido + '&id_docente=' + id_docente + "&usuario=" + usuario + "&fecha=" + fecha
+        var urlprocess = 'editar_estudiante.php';
+        var dataString = 'process=' + process + '&nombre=' + nombre + '&apellido=' + apellido + '&id_estudiante=' + id_estudiante + "&usuario=" + usuario + "&fecha=" + fecha;
+        dataString += "&departamento=" + departamento + "&municipio=" + municipio + "&facultad=" + facultad + "&carrera=" + carrera;
     }
     $.ajax({
         type: 'POST',
@@ -102,15 +166,15 @@ function senddata() {
 }
 
 function reload1() {
-    location.href = 'admin_docente.php';
+    location.href = 'admin_estudiante.php';
 }
 
 function deleted() {
-    var id_docente = $('#id_docente').val();
-    var dataString = 'process=deleted' + '&id_docente=' + id_docente;
+    var id_estudiante = $('#id_estudiante').val();
+    var dataString = 'process=deleted' + '&id_estudiante=' + id_estudiante;
     $.ajax({
         type: "POST",
-        url: "borrar_docente.php",
+        url: "borrar_estudiante.php",
         data: dataString,
         dataType: 'json',
         success: function(datax) {
@@ -133,7 +197,7 @@ function generar2() {
         "autoWidth": false,
         "serverSide": true,
         "ajax": {
-            url: "admin_docente_dt.php", // json datasource
+            url: "admin_estudiante_dt.php", // json datasource
             //url :"admin_factura_rangos_dt.php", // json datasource
             //type: "post",  // method  , by default get
             error: function() { // error handling

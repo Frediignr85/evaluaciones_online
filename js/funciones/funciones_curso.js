@@ -1,44 +1,67 @@
 $(document).ready(function() {
-
+    $(".select").select2();
+    $("#hora_inicio").timepicki();
+    $("#hora_fin").timepicki();
     $('#formulario').validate({
         rules: {
             nombre: {
                 required: true,
                 maxlength: 100,
             },
-            apellido: {
+            materia: {
                 required: true,
-                maxlength: 250,
             },
-            usuario: {
+            docente: {
                 required: true,
-                maxlength: 50,
             },
-            fecha: {
+            estado: {
+                required: true,
+            },
+            fecha_inicio: {
+                required: true,
+            },
+            hora_inicio: {
+                required: true,
+            },
+            fecha_fin: {
+                required: true,
+            },
+            hora_fin: {
                 required: true,
             },
         },
         messages: {
             nombre: {
-                required: "Por favor ingrese el nombre del docente!",
+                required: "Por favor ingrese el nombre del curso!",
                 maxlength: "Longitud exede el limite de 100 caracteres!"
             },
-            apellido: {
-                required: "Por favor ingrese el apellido del docente!",
-                maxlength: "Longitud exede el limite de 250 caracteres!"
+            materia: {
+                required: "Por favor ingrese la materia asociada!",
             },
-            usuario: {
-                required: "Por favor ingrese el nombre de usuario del docente!",
-                maxlength: "Longitud exede el limite de 50 caracteres!"
+            docente: {
+                required: "Por favor ingrese el docente asociado!",
             },
-            fecha: {
-                required: "Por favor ingrese las fecha de nacimiento del docente!",
+            estado: {
+                required: "Por favor ingrese el estado del curso!",
+            },
+            fecha_inicio: {
+                required: "Por favor ingrese la estado de inicio del curso!",
+            },
+            hora_inicio: {
+                required: "Por favor ingrese la hora de inicio del curso!",
+            },
+            fecha_fin: {
+                required: "Por favor ingrese la estado de finalizacion del curso!",
+            },
+            hora_fin: {
+                required: "Por favor ingrese la hora de finalizacion del curso!",
             },
         },
         submitHandler: function(form) {
             senddata();
         }
     });
+
 });
 
 $(function() {
@@ -68,23 +91,29 @@ function autosave(val) {
 
 function senddata() {
     var nombre = $('#nombre').val();
-    var apellido = $('#apellido').val();
-    var usuario = $("#usuario").val();
-    var fecha = $("#fecha").val();
+    var materia = $('#materia').val();
+    var docente = $("#docente").val();
+    var estado = $("#estado").val();
+    var fecha_inicio = $("#fecha_inicio").val();
+    var hora_inicio = $("#hora_inicio").val();
+    var fecha_fin = $("#fecha_fin").val();
+    var hora_fin = $("#hora_fin").val();
     //Get the value from form if edit or insert
     var process = $('#process').val();
     if (process == 'insert') {
         var id_usuario = 0;
-        var urlprocess = 'agregar_docente.php';
-        var dataString = 'process=' + process + '&nombre=' + nombre + '&apellido=' + apellido + "&usuario=" + usuario + "&fecha=" + fecha;
+        var urlprocess = 'agregar_curso.php';
+        var dataString = 'process=' + process + '&nombre=' + nombre + '&materia=' + materia + "&docente=" + docente + "&estado=" + estado;
+        dataString += "&fecha_inicio=" + fecha_inicio + "&hora_inicio=" + hora_inicio + "&fecha_fin=" + fecha_fin + "&hora_fin=" + hora_fin;
     }
     if (process == 'edited') {
-        var id_docente = $('#id_docente').val();
+        var id_curso = $('#id_curso').val();
         var nombre = $('#nombre').val();
-        var apellido = $('#apellido').val();
+        var materia = $('#materia').val();
 
-        var urlprocess = 'editar_docente.php';
-        var dataString = 'process=' + process + '&nombre=' + nombre + '&apellido=' + apellido + '&id_docente=' + id_docente + "&usuario=" + usuario + "&fecha=" + fecha
+        var urlprocess = 'editar_curso.php';
+        var dataString = 'process=' + process + '&nombre=' + nombre + '&materia=' + materia + '&id_curso=' + id_curso + "&docente=" + docente + "&estado=" + estado;
+        dataString += "&fecha_inicio=" + fecha_inicio + "&hora_inicio=" + hora_inicio + "&fecha_fin=" + fecha_fin + "&hora_fin=" + hora_fin;
     }
     $.ajax({
         type: 'POST',
@@ -102,15 +131,15 @@ function senddata() {
 }
 
 function reload1() {
-    location.href = 'admin_docente.php';
+    location.href = 'admin_curso.php';
 }
 
 function deleted() {
-    var id_docente = $('#id_docente').val();
-    var dataString = 'process=deleted' + '&id_docente=' + id_docente;
+    var id_curso = $('#id_curso').val();
+    var dataString = 'process=deleted' + '&id_curso=' + id_curso;
     $.ajax({
         type: "POST",
-        url: "borrar_docente.php",
+        url: "borrar_curso.php",
         data: dataString,
         dataType: 'json',
         success: function(datax) {
@@ -133,7 +162,7 @@ function generar2() {
         "autoWidth": false,
         "serverSide": true,
         "ajax": {
-            url: "admin_docente_dt.php", // json datasource
+            url: "admin_curso_dt.php", // json datasource
             //url :"admin_factura_rangos_dt.php", // json datasource
             //type: "post",  // method  , by default get
             error: function() { // error handling

@@ -539,4 +539,86 @@ function _hora_media_decode($hora){
 	$hora_final = $hora_n[0].":".$hora_n[1]." $sentido";
 	return $hora_final;
 }
+
+function traer_codigo_docente(){
+	$id_sucursal = $_SESSION['id_sucursal'];
+	$sql_correlativo = "SELECT * FROM tblcorrelativo WHERE anio = '".date("Y")."' AND deleted is NULL AND id_sucursal = '$id_sucursal'";
+	$query_correlativo = _query($sql_correlativo);
+	$row_correlativo = _fetch_array($query_correlativo);
+	$correlativo_docente = $row_correlativo['correlativo_docente'];
+	$desc_docente = $row_correlativo['desc_docente'];
+	$anio = date("Y");
+	$correlativo_docente = str_pad($correlativo_docente, 4, '0', STR_PAD_LEFT);
+	$codigo = $desc_docente.$anio.$correlativo_docente;
+	return $codigo;
+}
+function traer_codigo_estudiante(){
+	$id_sucursal = $_SESSION['id_sucursal'];
+	$sql_correlativo = "SELECT * FROM tblcorrelativo WHERE anio = '".date("Y")."' AND deleted is NULL AND id_sucursal = '$id_sucursal'";
+	$query_correlativo = _query($sql_correlativo);
+	$row_correlativo = _fetch_array($query_correlativo);
+	$correlativo_estudiante = $row_correlativo['correlativo_estudiante'];
+	$desc_estudiante = $row_correlativo['desc_estudiante'];
+	$anio = date("Y");
+	$correlativo_estudiante = str_pad($correlativo_estudiante, 4, '0', STR_PAD_LEFT);
+	$codigo = $desc_estudiante.$anio.$correlativo_estudiante;
+	return $codigo;
+}
+function traer_codigo_admin(){
+	$id_sucursal = $_SESSION['id_sucursal'];
+	$sql_correlativo = "SELECT * FROM tblcorrelativo WHERE anio = '".date("Y")."' AND deleted is NULL AND id_sucursal = '$id_sucursal'";
+	$query_correlativo = _query($sql_correlativo);
+	$row_correlativo = _fetch_array($query_correlativo);
+	$correlativo_admin = $row_correlativo['correlativo_admin'];
+	$desc_admin = $row_correlativo['desc_admin'];
+	$anio = date("Y");
+	$correlativo_admin = str_pad($correlativo_admin, 4, '0', STR_PAD_LEFT);
+	$codigo = $desc_admin.$anio.$correlativo_admin;
+	return $codigo;
+}
+function actualizar_correlativo_docente(){
+	$id_sucursal = $_SESSION['id_sucursal'];
+	$sql_correlativo = "SELECT * FROM tblcorrelativo WHERE anio = '".date("Y")."' AND deleted is NULL AND id_sucursal = '$id_sucursal'";
+	$query_correlativo = _query($sql_correlativo);
+	$row_correlativo = _fetch_array($query_correlativo);
+	$correlativo_docente = $row_correlativo['correlativo_docente'];
+	$correlativo_docente= $correlativo_docente+1;
+	$tabla_update = 'tblcorrelativo';
+	$form_data = array(
+		'correlativo_docente' => $correlativo_docente
+	);
+	$where = " anio = '".date("Y")."' AND deleted is NULL AND id_sucursal = '".$id_sucursal."'";
+	$update = _update($tabla_update,$form_data, $where);
+}
+
+function actualizar_correlativo_estudiante(){
+	$id_sucursal = $_SESSION['id_sucursal'];
+	$sql_correlativo = "SELECT * FROM tblcorrelativo WHERE anio = '".date("Y")."' AND deleted is NULL AND id_sucursal = '$id_sucursal'";
+	$query_correlativo = _query($sql_correlativo);
+	$row_correlativo = _fetch_array($query_correlativo);
+	$correlativo_estudiante = $row_correlativo['correlativo_estudiante'];
+	$correlativo_estudiante= $correlativo_estudiante+1;
+	$tabla_update = 'tblcorrelativo';
+	$form_data = array(
+		'correlativo_estudiante' => $correlativo_estudiante
+	);
+	$where = " anio = '".date("Y")."' AND deleted is NULL AND id_sucursal = '".$id_sucursal."'";
+	$update = _update($tabla_update,$form_data, $where);
+}
+
+function actualizar_correlativo_admin(){
+	$id_sucursal = $_SESSION['id_sucursal'];
+	$sql_correlativo = "SELECT * FROM tblcorrelativo WHERE anio = '".date("Y")."' AND deleted is NULL AND id_sucursal = '$id_sucursal'";
+	$query_correlativo = _query($sql_correlativo);
+	$row_correlativo = _fetch_array($query_correlativo);
+	$correlativo_admin = $row_correlativo['correlativo_admin'];
+	$correlativo_admin= $correlativo_admin+1;
+	$tabla_update = 'tblcorrelativo';
+	$form_data = array(
+		'correlativo_estudiante' => $correlativo_admin
+	);
+	$where = " anio = '".date("Y")."' AND deleted is NULL AND id_sucursal = '".$id_sucursal."'";
+	$update = _update($tabla_update,$form_data, $where);
+}
+
 ?>
