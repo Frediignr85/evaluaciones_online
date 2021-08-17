@@ -1,5 +1,6 @@
 <?php
 include_once ("_core.php");
+comprobar_evaluaciones();
  $sql_empresa=_query("SELECT * FROM tblempresa");
 	$array_empresa=_fetch_array($sql_empresa);
 	$nombre_empresa=$array_empresa['nombre'];
@@ -131,13 +132,7 @@ include_once ("_core.php");
                         <i class="fa fa-lock"></i> Contraseña
                     </a>
                 </li>
-                <?php if($admin) {?>
-                <li>
-                    <a href="ayuda.php">
-                        <i class="fa fa-question-circle-o"></i> Ayuda
-                    </a>
-                </li>
-                <?php }?>
+                
                 <li>
                     <a href="logout.php">
                         <i class="fa fa-sign-out"></i> Salir

@@ -6,7 +6,7 @@
 
     require('ssp.customized.class.php');
     // DB table to use
-    $table = 'tblUsuario';
+    $table = 'tblusuario';
     // Table's primary key
     $primaryKey = 'id_usuario';
 
@@ -26,16 +26,28 @@
     $filename=get_name_script($uri);
     $links=permission_usr($id_user, $filename);
 
-    $joinQuery = " FROM tblUsuario LEFT JOIN tblEmpleado on tblEmpleado.id_empleado = tblUsuario.id_empleado_usuario INNER JOIN tblcargos on tblcargos.id_cargo = tblUsuario.id_tipo_usuario";
+    $joinQuery = " FROM tblusuario LEFT JOIN tbldocente on tbldocente.id_docente = tblusuario.id_empleado LEFT JOIN tblestudiante on tblestudiante.id_estudiante = tblusuario.id_estudiante";
 
-    $extraWhere = "tblUsuario.id_usuario > 2 AND tblUsuario.deleted is NULL ";
+    $extraWhere = "tblusuario.id_usuario > 2 AND tblusuario.deleted is NULL ";
 
     $columns = array(
-    array( 'db' => '`tblUsuario`.`id_usuario`', 'dt' => 0, 'field' => 'id_usuario'  ),
-    array( 'db' => "CONCAT(tblEmpleado.nombre,' ',tblEmpleado.apellido)", 'dt' => 1, 'field' => "nombres", 'as'=>'nombres'),
-    array( 'db' => '`tblUsuario`.`usuario`', 'dt' => 2, 'field' => 'usuario'  ),
-    array( 'db' => '`tblcargos`.`nom_cargo`', 'dt' => 3, 'field' => 'nom_cargo'  ),
-    array( 'db' => '`tblUsuario`.`activo`', 'dt' => 4, 'formatter'  => function($activo){
+    array( 'db' => '`tblusuario`.`id_usuario`', 'dt' => 0, 'field' => 'id_usuario'  ),
+    array( 'db' => "tblusuario.nombre", 'dt' => 1, 'field' => "nombre", 'as'=>'nombre'),
+    array( 'db' => '`tblusuario`.`usuario`', 'dt' => 2, 'field' => 'usuario'  ),
+    array( 'db' => '`tblusuario`.`id_tipo_usuario`', 'dt' => 3, 'formatter' => function($id_tipo_usuario){
+        $tipo = "";
+        if($id_tipo_usuario == 1){
+            $tipo = "Administrador";
+        }
+        elseif($id_tipo_usuario == 2){
+            $tipo = "Docente";
+        }
+        elseif($id_tipo_usuario == 3){
+            $tipo = "Estudiante";
+        }
+        return $tipo;
+    }, 'field' => 'id_tipo_usuario'  ),
+    array( 'db' => '`tblusuario`.`activo`', 'dt' => 4, 'formatter'  => function($activo){
         if($activo == 1){
 			return "<label class='badge' style='background:#2EC824; color:#FFF; font-weight:bold;'>Activo</label>";
 		}
@@ -43,7 +55,7 @@
 			return "<label class='badge' style='background:#FF4646; color:#FFF; font-weight:bold;'>Inactivo</label>";
 		}
     },'field' => 'activo'  ),
-    array( 'db' => '`tblUsuario`.`id_usuario`', 'dt' => 5, 'formatter' => function ($id_usuario) {
+    array( 'db' => '`tblusuario`.`id_usuario`', 'dt' => 5, 'formatter' => function ($id_usuario) {
       $id_user=$_SESSION["id_usuario"];
         $admin=$_SESSION["admin"];
         $tabla="<td><div class=\"btn-group\">

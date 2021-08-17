@@ -45,7 +45,7 @@ function initial() {
         <div class="col-lg-12">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h3></i> <b><?php echo $title;?></b></h3>
+                <h3 style="color:#194160;"><i class="fa fa-user"></i> <b><?php echo $title;?></b></h3> (Los campos marcados con <span style="color:red;">*</span> son requeridos)
                 </div>
                 <div class="ibox-content">
                     <form name="formulario" id="formulario">
@@ -102,7 +102,7 @@ function insertar()
     $descripcion=$_POST["descripcion"];
     $codigo = $_POST['codigo'];
     $unidades = $_POST['unidades'];
-    $sql_result=_query("SELECT * FROM tblmateria WHERE nombre='$nombre' AND codigo = '$codigo' AND deleted is NULL");/*OR descripcion='$descripcion'*/
+    $sql_result=_query("SELECT * FROM tblmateria WHERE (nombre='$nombre' OR codigo='$codigo') AND deleted is NULL");/*OR descripcion='$descripcion'*/
     $numrows=_num_rows($sql_result);
     $table = 'tblmateria';
     $form_data = array (

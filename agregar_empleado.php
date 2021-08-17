@@ -46,7 +46,7 @@ function initial() {
         <div class="col-lg-12">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h3 class="text-navy"><b><i class="fa fa-plus-circle fa-1x"></i> <?php echo $title;?></b></h3>
+                <h3 style="color:#194160;"><i class="fa fa-user"></i> <b><?php echo $title;?></b></h3> (Los campos marcados con <span style="color:red;">*</span> son requeridos)
                 </div>
                 <div class="ibox-content">
                     <form name="formulario" id="formulario">

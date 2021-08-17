@@ -56,7 +56,7 @@
 								<tr>
 									<th>Id Usuario</th>
 									<th>Nombre</th>
-									<th>Usuarios</th>
+									<th>Usuario</th>
 									<th>Tipo usuario</th>
 									<th>Estado</th>
 									<th>Acci&oacute;n</th>

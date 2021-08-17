@@ -25,10 +25,14 @@
     $uri = $_SERVER['SCRIPT_NAME'];
     $filename=get_name_script($uri);
     $links=permission_usr($id_user, $filename);
-
+    
     $joinQuery = " FROM tblcurso INNER JOIN tblmateria on tblmateria.id_materia = tblcurso.id_materia INNER JOIN tbldocente on tbldocente.id_docente = tblcurso.id_docente";
 
     $extraWhere = " tblcurso.deleted is NULL AND tblcurso.activo = 1";
+    if($admin == 2){
+        $joinQuery.= " LEFT JOIN tbldocente_curso on tbldocente_curso.id_curso = tblcurso.id_curso";
+        $extraWhere.= " AND (tbldocente_curso.id_docente = '".$_SESSION['id_docente']."' OR tblcurso.id_docente = '".$_SESSION['id_docente']."' )";
+    }
 
     $columns = array(
     array( 'db' => '`tblcurso`.`id_curso`', 'dt' => 0, 'field' => 'id_curso'  ),
@@ -74,11 +78,7 @@
         if ($link!='NOT' || $admin=='1' ){
             $tabla.= "<li><a data-toggle='modal' href='borrar_curso.php?id_curso=".$id_curso."' data-target='#deleteModal' data-refresh='true'><i class=\"fa fa-trash\"></i> Eliminar</a></li>";
         }
-        $filename='estado_curso.php';
-        $link=permission_usr($id_user,$filename);
-        if ($link!='NOT' || $admin=='1' ){
-            $tabla.= "<li><a data-toggle='modal' href='estado_curso.php?id_curso=".$id_curso."' data-target='#deleteModal' data-refresh='true'><i class=\"fa fa-star\"></i> Cambiar Estado</a></li>";
-        }
+        
         $filename='estudiantes_cursos.php';
         $link=permission_usr($id_user,$filename);
         if ($link!='NOT' || $admin=='1' ){
@@ -89,6 +89,17 @@
         if ($link!='NOT' || $admin=='1' ){
             $tabla.= "<li><a href=\"docentes_cursos.php?id_curso=".$id_curso."\"><i class=\"fa fa-black-tie\"></i> Ver Docentes</a></li>";
         }
+        $filename='admin_evaluaciones.php';
+        $link=permission_usr($id_user,$filename);
+        if ($link!='NOT' || $admin=='1' ){
+            $tabla.= "<li><a href=\"admin_evaluaciones.php?id_curso=".$id_curso."\"><i class=\"fa fa-tasks\"></i> Ver Evaluaciones</a></li>";
+        }
+        $filename='agregar_evaluacion.php';
+        $link=permission_usr($id_user,$filename);
+        if ($link!='NOT' || $admin=='1' ){
+            $tabla.= "<li><a href=\"agregar_evaluacion.php?id_curso=".$id_curso."\"><i class=\"fa fa-plus\"></i> Agregar Evaluacion</a></li>";
+        }
+        
 
         $tabla.= "	</ul>
                 </div>

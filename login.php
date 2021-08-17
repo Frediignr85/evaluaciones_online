@@ -7,11 +7,12 @@ if($_POST){
 	//require_once "_conexion.php";
 	$user=$_POST["username"];
     $pass=MD5($_POST["password"]);
-    $sql = "SELECT tblusuario.id_usuario, tblusuario.nombre, tblusuario.usuario, tblusuario.password, tblusuario.id_tipo_usuario, tblusuario.id_sucursal FROM tblusuario  WHERE tblusuario.usuario = '$user' AND tblusuario.password ='$pass' AND tblusuario.deleted is NULL";
+    $sql = "SELECT tblusuario.id_usuario, tblusuario.id_estudiante,  tblusuario.id_empleado, tblusuario.nombre, tblusuario.usuario, tblusuario.password, tblusuario.id_tipo_usuario, tblusuario.id_sucursal FROM tblusuario  WHERE tblusuario.usuario = '$user' AND tblusuario.password ='$pass' AND tblusuario.deleted is NULL";
     $result = _query($sql);
 	$num = _num_rows($result);
 	if($num > 0)
 	{
+		comprobar_evaluaciones();
 		$row= _fetch_array($result);
 		$_SESSION["id_usuario"] = $row['id_usuario'];
 		$idUsuario = $_SESSION["id_usuario"];
@@ -19,7 +20,8 @@ if($_POST){
 		$_SESSION["nombre"] = $row['nombre'];
 		$_SESSION["admin"] = $row['id_tipo_usuario'];
 		$_SESSION['id_sucursal'] = $row['id_sucursal'];
-		
+		$_SESSION['id_estudiante'] = $row['id_estudiante'];
+		$_SESSION['id_docente'] = $row['id_empleado'];
 		header('location: dashboard.php');
 	}
 	else

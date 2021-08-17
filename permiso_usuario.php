@@ -26,7 +26,7 @@ function initial()
 	include_once "main_menu.php";	
 	$id_usuario= $_REQUEST['id_usuario'];
   
-    $sql="SELECT tblUsuario.id_usuario, tblUsuario.nombre, tblUsuario.password, tblUsuario.usuario, tblUsuario.id_tipo_usuario, tblEmpleado.nombre as 'nombreEM', tblEmpleado.apellido as 'apellidoEM' FROM tblUsuario INNER JOIN tblEmpleado on tblUsuario.id_empleado_usuario = tblEmpleado.id_empleado WHERE id_usuario ='$id_usuario'";
+    $sql="SELECT * FROM tblusuario WHERE id_usuario = '$id_usuario'";
     $result=_query($sql);
     $count=_num_rows($result);
     
@@ -55,7 +55,7 @@ function initial()
 					        for($i=0;$i<$count;$i++)
 					        {
 					            $row=_fetch_array($result);
-					            $nombre=$row['nombreEM']." ".$row['apellidoEM'];
+					            $nombre=$row['nombre'];
 					            $usuario=$row['usuario'];
 					            $password=$row['password'];
 					            $tipo_usuario=$row['id_tipo_usuario'];

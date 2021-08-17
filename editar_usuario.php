@@ -37,7 +37,6 @@ function initial() {
     $usuario = $datos_user["usuario"];
     $tipo = $datos_user["id_tipo_usuario"];
     $activo = $datos_user["activo"];
-    $id_empleado = $datos_user["id_empleado_usuario"];
 
     //permiso del script
 	if ($links!='NOT' || $admin=='1' ){
@@ -71,24 +70,6 @@ function initial() {
                                         <label>Clave</label>
                                         <input type="password" placeholder="Ingrese una contraseña" class="form-control" id="clave" name="clave">
                                     </div>
-                                    <div class="form-group col-lg-6">
-                                          <label>Empleado</label>
-                                          <select id="id_empleado" name="id_empleado" class="form-control select" >
-                                              <option value="">Seleccione</option>
-                                              <?php
-                                                  $sql = _query("SELECT * FROM tblEmpleado ORDER BY id_empleado DESC");
-                                                  while($row=_fetch_array($sql))
-                                                  {
-                                                      echo "<option value='".$row["id_empleado"]."'";
-                                                      if($id_empleado == $row["id_empleado"])
-                                                      {
-                                                          echo " selected ";
-                                                      }
-                                                      echo ">".$row["nombre"]." ".$row["apellido"]."</option>";
-                                                  }
-                                              ?>
-                                          </select>
-                                      </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-lg-3">
@@ -140,7 +121,6 @@ function editar_usuario()
     $nombre=$_POST["nombre"];
     $usuario=$_POST["usuario"];
 	$clave=md5($_POST["clave"]);
-    $id_empleado = $_POST["id_empleado"];
     $admin=$_POST["admin"];
     $activo=$_POST["activo"];
     $sql_result=_query("SELECT id_usuario FROM tblUsuario WHERE usuario='$usuario' AND id_usuario!='$id_usuario'");
@@ -150,7 +130,6 @@ function editar_usuario()
     }
     $table = 'tblUsuario';
     $form_data = array (
-    'id_empleado_usuario' => $id_empleado,
     'nombre' => $nombre,
     'usuario' => $usuario,
     'password' => $clave,

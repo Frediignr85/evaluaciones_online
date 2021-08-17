@@ -28,11 +28,10 @@ function _query($sql_string){
 		$query=mysqli_query($conexion,$sql_string);
 		echo _error();
 		return $query;
-		}
+	}
 	else{
 		echo "Error en la consulta...!";
 	}
-
 }
 // Begin functions queries
 
@@ -508,33 +507,31 @@ function ceros_izquierda($cantidad,$cadena){
 }
 
 function _hora_media_encode($hora){
-	$hora_s = explode(" ", $hora);
-	$hora_n = explode(":", $hora_s[0]);
-	if($hora_s[1]=="AM"){
-		if($hora_n[0] == 12){
-			$hora_n[0] == "00";
-		}
+	$var1=preg_match('/((1[0-2]|0?[1-9]):([0-5][0-9]) ?([AaPp][Mm]))/', $hora);
+	if($var1){
+		$hora_final = strftime('%H:%M:%S', strtotime($hora));
+  		return $hora_final;
 	}
-	if($hora_s[1] == "PM"){
-		if($hora_n[0] > 12){
-			$hora_n[0]+=12;
-		}
+	else{
+		return "00:00:00";
 	}
-	$hora_final = $hora_n[0].":".$hora_n[1].":00";
-	return $hora_final;
+
 }
 function _hora_media_decode($hora){
 	$hora_n = explode(":", $hora);
 	$sentido="";
-	if($hora_n[0] == "00"){
-		$hora_n[0] = 12;
-	}
-	if($hora_n[0] > 12){
-		$hora_n[0]-=12;
-		$sentido ="PM";
-	}
 	if($hora_n[0] < 12){
 		$sentido = "AM";
+	}
+	if($hora_n[0] > 12){
+		$hora_n[0]= $hora_n[0]-12;
+		$sentido ="PM";
+	}
+	if($hora_n[0] == 12){
+		$sentido = "PM";
+	}
+	if($hora_n[0] == "00"){
+		$hora_n[0] = 12;
 	}
 	$hora_final = $hora_n[0].":".$hora_n[1]." $sentido";
 	return $hora_final;
@@ -620,5 +617,52 @@ function actualizar_correlativo_admin(){
 	$where = " anio = '".date("Y")."' AND deleted is NULL AND id_sucursal = '".$id_sucursal."'";
 	$update = _update($tabla_update,$form_data, $where);
 }
+
+function comprobar_evaluaciones(){
+	$table = 'tblevaluacion';
+	$array_data = array(
+		'id_estado' => 3,
+	);
+	$where1 = " WHERE CONCAT(fecha_inicio,' ',hora_inicio) <= '".date("Y-m-d H:i:s")."'";
+	$update1 = _update($table,$array_data,$where1);
+	$table = 'tblevaluacion';
+	$array_data2 = array(
+		'id_estado' => 4,
+	);
+	$where2 = " WHERE CONCAT(fecha_fin,' ',hora_fin) <= '".date("Y-m-d H:i:s")."'";
+	$update1 = _update($table,$array_data2,$where2);
+}
+
+function asignar_permisos_estudiante($id_usuario){
+	$modulos = array("67","61");
+	$tbl_update = 'tblusuario_modulo';
+	$where = "id_usuario = '$id_usuario'";
+	$borrar = _delete_total($tbl_update,$where);
+	for ($x=0;$x<count($modulos); $x++){
+		$tbl_insertar = 'tblusuario_modulo';
+		$form_data = array(
+			'id_modulo' => $modulos[$x],
+			'id_usuario' => $id_usuario
+		);
+		$insertar = _insert($tbl_insertar,$form_data);
+	}
+}
+function asignar_permisos_docente($id_usuario){
+	$modulos = array("50","51","54","57","58","59","60","62","64","65","66","67","68");
+	$tbl_update = 'tblusuario_modulo';
+	$where = "id_usuario = '$id_usuario'";
+	$borrar = _delete_total($tbl_update,$where);
+	for ($x=0;$x<count($modulos); $x++){
+		$tbl_insertar = 'tblusuario_modulo';
+		$form_data = array(
+			'id_modulo' => $modulos[$x],
+			'id_usuario' => $id_usuario
+		);
+		$insertar = _insert($tbl_insertar,$form_data);
+	}
+}
+
+
+
 
 ?>

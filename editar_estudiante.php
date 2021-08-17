@@ -233,23 +233,16 @@ function editar()
         else{
             $insertar = _update($table,$form_data, $where_clause);
             if($insertar)
-            {
-                $table_update_usuario = 'tblusuario';
-                $array_update_usuario = array(
-                    'usuario' => $usuario
-                );
-                $where_usuario = " id_empleado = '$id_estudiante'";
-                $update2 = _update($table_update_usuario, $array_update_usuario, $where_usuario);
-                if($update2){
-                    $xdatos['typeinfo']='Success';
-                    $xdatos['msg']='Estudiante editado correctamente!';
-                    $xdatos['process']='insert';
-                    _commit();
-                }else{
-                    $xdatos['typeinfo']='Error';
-                    $xdatos['msg']='No se pudo Editar el Estudiante!';
-                    _rollback();
-                }
+            {   
+                $sql_usuario = "SELECT * FROM tblestudiante WHERE usuario = '$usuario' AND id_estudiante = '$id_estudiante'";
+                $sql_result2 = _query($sql_usuario);
+                $row_estudiante = _fetch_array($sql_result2);
+                $id_usuario = $row_estudiante['id_usuario'];
+                $xdatos['typeinfo']='Success';
+                $xdatos['msg']='Estudiante editado correctamente!';
+                $xdatos['process']='insert';
+                asignar_permisos_estudiante($id_usuario);
+                _commit();
             }
             else
             {

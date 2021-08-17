@@ -10,99 +10,14 @@
 
 
 	</style>
-<a ><div id="floating-btn" class="floating-btn btn btn-primary"><span class="fa fa-send fa-2x"></span> </div></a>
-
-<div id="openModal" class="modalDialog">
-	<div>
-		<a id="cerrar" title="Cerrar" class="close">X</a>
-		<div class="container-fluid h-100">
-			<div class="row justify-content-center h-100">
-				<div class="col-md-4 col-xl-3 chat"><div class="card mb-sm-3 mb-md-0 contacts_card">
-					<div class="card-header">
-						<div class="input-group">
-							<input type="text" placeholder="Buscar..." name="" class="form-control search">
-							<div class="input-group-prepend">
-								<span class="input-group-text search_btn"><i class="fa fa-search"></i></span>
-							</div>
-						</div>
-					</div>
-					<div class="card-body contacts_body">
-						<ui id="contactos_chat" class="contacts">
-
-						</ui>
-					</div>
-					<div class="card-footer"></div>
-				</div></div>
-				<div class="col-md-8 col-xl-6 chat">
-					<div class="card">
-						<div class="card-header msg_head">
-							<div class="d-flex bd-highlight">
-								<input id="id_chat"  type="hidden" name="" value="0">
-								<div id="actual" class="img_cont">
-									<img src="img/avatar.png" class="rounded-circle user_img">
-									<span class="online_icon"></span>
-								</div>
-								<div class="user_info">
-									<span id="actual_chat_name">No has seleccionado un chat</span>
-									<p></p>
-									<!--
-									aca arriba ban el numero de mensajes
-									-->
-								</div>
-								<div hidden class="video_cam">
-									<span><i class="fa fa-video"></i></span>
-									<span><i class="fa fa-phone"></i></span>
-								</div>
-							</div>
-							<span hidden id="action_menu_btn"><i class="fa fa-ellipsis-v"></i></span>
-							<div class="action_menu">
-								<ul>
-									<li><i class="fa fa-user-circle"></i> View profile</li>
-									<li><i class="fa fa-users"></i> Add to close friends</li>
-									<li><i class="fa fa-plus"></i> Add to group</li>
-									<li><i class="fa fa-ban"></i> Block</li>
-								</ul>
-							</div>
-						</div>
-						<div class="card-body msg_card_body">
-							<div class="d-flex justify-content-start mb-4">
-								<div class="img_cont_msg">
-									<img src="img/avatar.png" class="rounded-circle user_img_msg">
-								</div>
-								<div class="msg_cotainer">
-									Selecciona una persona y empieza
-									<span class="msg_time"></span>
-								</div>
-							</div>
 
 
-
-
-
-
-						</div>
-						<div class="card-footer">
-							<div class="input-group">
-								<div class="input-group-append">
-									<span class="input-group-text attach_btn"><i class="fa fa-paperclip"></i></span>
-								</div>
-								<textarea name="" class="form-control type_msg" placeholder="Escribe tu mensaje.."></textarea>
-								<div class="input-group-append">
-									<span class="input-group-text send_btn"><i class="fa fa-location-arrow"></i></span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 
 <div class="footer">
 
 
-                <strong>Copyright</strong>  <a href=""  target="_blank">Html5</a> &copy; <?php echo date("Y");?>
+               
+
             </div>
         </div>
     <!-- Mainly scripts -->
